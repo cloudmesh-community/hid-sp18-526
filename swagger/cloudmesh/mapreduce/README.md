@@ -1,6 +1,6 @@
 # Swagger MapReduce Server
 
-Retrieve swagger-codegen (skip this if running in Docker):
+Retrieve swagger-codegen (file must be in this directory, skip this if running in Docker):
 
     wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar
 
