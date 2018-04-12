@@ -1,4 +1,4 @@
-SWAGGER=java -jar ~/swagger/swagger-codegen-cli-2.3.1.jar
+SWAGGER=java -jar swagger-codegen-cli-2.3.1.jar
 SPEC=swagger.yml
 
 all: generate requirements run
