@@ -1,9 +1,0 @@
-curl -H "Content-Type: application/json" \
--X POST \
--d '{"words":"I I went to the the park"}' \
-http://localhost:8080/map
-
-curl -H "Content-Type: application/json" \
--X POST \
--d '{"words":"I I went to the the park"}' \
-http://localhost:8080/reduce
