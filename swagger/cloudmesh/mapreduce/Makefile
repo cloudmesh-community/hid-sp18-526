@@ -19,6 +19,16 @@ run:
 requirements:
 	pip install -r requirements.txt
 	cd server/mapreduce/flaskConnexion; pip install -r requirements.txt
+	
+curl:
+	curl -H "Content-Type: application/json" \
+		-X POST \
+		-d '{"words":"I I went to the the park"}' \
+		http\://localhost\:8080/map      
+	curl -H "Content-Type: application/json" \
+		-X POST \
+		-d '{"words":"I I went to the the park"}' \
+		http\://localhost\:8080/reduce
 
 clean:
 	rm -rf server/
