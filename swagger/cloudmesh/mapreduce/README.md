@@ -2,11 +2,11 @@
 
 Retrieve swagger-codegen (file must be in this directory, skip this if running in Docker):
 
-    wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar
+    make codegen
 
 To generate swagger service:
 
-    make
+    make generate
     
 To run swagger service:
     
@@ -14,8 +14,8 @@ To run swagger service:
     
 To run in Docker:
 
-    docker build cloudmesh-mapreduce .
-    docker run -p 8080:8080 cloudmesh-mapreduce
+    make docker-build
+    make docker-start
     
 To test:
 

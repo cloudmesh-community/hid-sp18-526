@@ -1,8 +1,11 @@
 SWAGGER=java -jar swagger-codegen-cli-2.3.1.jar
 SPEC=swagger.yml
 
-all: generate requirements run
-	@echo "DONE"
+all: 
+	generate requirements run
+	
+codegen:
+	wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar
 
 generate:
 	$(SWAGGER) generate \
@@ -29,6 +32,12 @@ curl:
 		-X POST \
 		-d '{"words":"I I went to the the park"}' \
 		http\://localhost\:8080/reduce
+		
+docker-build:
+	docker build -t cloudmesh-mapreduce .
+
+docker-start:
+	docker run -t -p 8080:8080 cloudmesh-mapreduce
 
 clean:
 	rm -rf server/
