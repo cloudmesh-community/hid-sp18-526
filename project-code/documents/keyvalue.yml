@@ -1,0 +1,8 @@
+paths:
+  /test:
+    get:
+      description: test
+      responses:
+        200:
+          description: "test"
+

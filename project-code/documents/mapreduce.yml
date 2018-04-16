@@ -1,0 +1,15 @@
+paths:
+  /map:
+    get:
+      description: Map input
+      responses:
+        200:
+          description: "Mapped"
+      
+  /reduce:
+    post:
+      description: Reduce input
+      responses:
+        200:
+          description: "Reduced"
+
