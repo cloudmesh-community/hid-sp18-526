@@ -1,6 +1,6 @@
 from document import APIDoc
+from resolver import CMResolver
 import connexion
-from connexion.resolver import RestyResolver
 
 doc = APIDoc(
     title = 'yolo',
@@ -8,9 +8,8 @@ doc = APIDoc(
     swagger = '2.0'
 )
 
-doc.add_apis('mapreduce', 'keyvalue')
+controller_dispatch = doc.set_apis(['services', 'store'])
 
 app = connexion.App(__name__)
-app.add_api(doc.to_dict(), resolver = RestyResolver('controllers'))
-app.run()
-#print(doc.paths)
+app.add_api(doc.to_dict(), resolver = CMResolver(controller_dispatch))
+app.run(port = 8080)

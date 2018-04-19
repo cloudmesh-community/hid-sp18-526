@@ -1,0 +1,7 @@
+paths:
+  /key:
+    get:
+      responses:
+        200:
+          description: Get key
+
