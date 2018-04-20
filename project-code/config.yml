@@ -1,3 +1,3 @@
 # either a list of apis or 
-# 'all' for all defined in definitions directory
+# 'all' for all apis defined in definitions directory
 apis: all

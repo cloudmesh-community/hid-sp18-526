@@ -1,4 +1,4 @@
-import glob
+import os
 import yaml
 import constants
 
@@ -37,14 +37,14 @@ class APIDoc:
         """
         
         if api_list == 'all':
-            api_list = [f[len(constants.DEFINITION_ROOT) + 1:-len(constants.YAML_EXTENSION) - 1] for f in glob.glob(constants.DEFINITION_ROOT + '/*.' + constants.YAML_EXTENSION)]
+            api_list = os.listdir('apis')
 
         apis = {}
         parents = {}
         
         # load yaml files
         for name in api_list:
-            with open(constants.DEFINITION_ROOT + '/' + name + '.' + constants.YAML_EXTENSION, 'r') as f:
+            with open(constants.API_ROOT + '/' + name + '/' + constants.SPECIFICATION_FILE + '.' + constants.YAML_EXTENSION, 'r') as f:
                 api = yaml.load(f)
                 for key, value in api.items():
                     
