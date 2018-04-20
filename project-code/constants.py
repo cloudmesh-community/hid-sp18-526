@@ -1,2 +1,2 @@
-DOCUMENT_ROOT = 'documents'
+DEFINITION_ROOT = 'definitions'
 YAML_EXTENSION = 'yml'
