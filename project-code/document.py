@@ -30,21 +30,21 @@ class APIDoc:
     def set_apis(self, api_list):
         """ Add APIs, by yaml file
         Args:
-            api_list - each argument supplied should lead to a .yml document in /documents
+            api_list - each argument supplied should lead to a yaml document in /documents
             
         Returns:
             dict of {child: parent}
         """
         
         if api_list == 'all':
-            api_list = [f[len(constants.DOCUMENT_ROOT) + 1:-len(constants.YAML_EXTENSION) - 1] for f in glob.glob(constants.DOCUMENT_ROOT + '/*.' + constants.YAML_EXTENSION)]
+            api_list = [f[len(constants.DEFINITION_ROOT) + 1:-len(constants.YAML_EXTENSION) - 1] for f in glob.glob(constants.DEFINITION_ROOT + '/*.' + constants.YAML_EXTENSION)]
 
         apis = {}
         parents = {}
         
         # load yaml files
         for name in api_list:
-            with open(constants.DOCUMENT_ROOT + '/' + name + '.' + constants.YAML_EXTENSION, 'r') as f:
+            with open(constants.DEFINITION_ROOT + '/' + name + '.' + constants.YAML_EXTENSION, 'r') as f:
                 api = yaml.load(f)
                 for key, value in api.items():
                     
@@ -64,3 +64,6 @@ class APIDoc:
             
     def to_dict(self):
         return self.__dict__
+        
+    def to_yaml(self):
+        return yaml.dump(self.__dict__, default_flow_style = False)
