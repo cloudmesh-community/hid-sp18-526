@@ -1,4 +1,6 @@
+import glob
 import yaml
+import constants
 
 class APIDoc:
     """Class for combining OpenAPI documents
@@ -34,12 +36,15 @@ class APIDoc:
             dict of {child: parent}
         """
         
+        if api_list == 'all':
+            api_list = [f[len(constants.DOCUMENT_ROOT) + 1:-len(constants.YAML_EXTENSION) - 1] for f in glob.glob(constants.DOCUMENT_ROOT + '/*.' + constants.YAML_EXTENSION)]
+
         apis = {}
         parents = {}
         
         # load yaml files
         for name in api_list:
-            with open('documents/' + name + '.yml', 'r') as f:
+            with open(constants.DOCUMENT_ROOT + '/' + name + '.' + constants.YAML_EXTENSION, 'r') as f:
                 api = yaml.load(f)
                 for key, value in api.items():
                     
