@@ -1,7 +1,7 @@
 import os
 
 import yaml
-import connexion
+#import connexion
 from fabric.api import local
 
 from document import APIDoc
