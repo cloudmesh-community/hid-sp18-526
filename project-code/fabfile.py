@@ -3,6 +3,8 @@ import os
 import yaml
 from fabric.api import local
 
+import constants
+
 with open('config.' + constants.YAML_EXTENSION, 'r') as f:
     config = yaml.load(f)
     
