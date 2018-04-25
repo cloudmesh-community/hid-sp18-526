@@ -1,7 +1,6 @@
 import os
 
 import yaml
-import connexion
 from fabric.api import local
 
 with open('config.' + constants.YAML_EXTENSION, 'r') as f:
