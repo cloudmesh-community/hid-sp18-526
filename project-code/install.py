@@ -6,7 +6,8 @@ import yaml
 import cmenv.config as config
 import cmenv.constants as constants
 
-call('mkdir ' + constants.DATA_DIR)
+if not os.path.exists(constants.DATA_DIR):
+    os.mkdir(constants.DATA_DIR)
 
 ubuntu_packages = []
 pip_packages = []
