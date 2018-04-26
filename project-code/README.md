@@ -60,7 +60,7 @@ Each API uses the following structure:
 
 CMENV uses a custom resolver, cmresolver. This resolver will create a route to each API by name, and each path. Each swagger path is maintained with the name of the API, the path, and the method (GET with no parameters defaults to SEARCH, in keeping with the connexion default.
 
-Key-value store example:
+Key-value store example, from [store swagger file](apis/store/swagger.yml):
 
 ```yaml
 
