@@ -16,10 +16,20 @@ Each working CMENV directory should be structured as follows:
 
     .
     ├── config.yml          # configuration file
-    └── Dockerfile          # dockerfile
+    └── Dockerfile          # Dockerfile
 
 - **config.yml** yaml configuration file. See [example](config.yml).
 - **Dockerfile** Dockerfile. This should not be changed by the user.
+
+Build Docker image:
+
+    docker build -t cmenv .
+    
+Run Docker image:
+
+    docker run -t -p 8080:8080 cmenv
+    
+-t enables ctrl+c closing of server and -p ensures the port is open to communicate with the server in the container.
 
 ## APIs
 
