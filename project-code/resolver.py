@@ -37,6 +37,10 @@ class CMResolver(Resolver):
         ie. apis.services.controllers.list.get
         """
         
-        path = operation.path[1:]
+        path = operation.path.split('/')[1]
+        endpoint = operation.method
+        
+        if endpoint == 'get' and '{' not in operation.path:
+            endpoint = 'search'
 
-        return '{}.{}.{}.{}.{}'.format(constants.API_ROOT, self.controller_dispatch[path], 'controllers', path, operation.method)
+        return '{}.{}.{}.{}.{}'.format(constants.API_ROOT, self.controller_dispatch[operation.path[1:]], 'controllers', path, endpoint)
