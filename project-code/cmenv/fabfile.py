@@ -3,7 +3,8 @@ import os
 import yaml
 from fabric.api import local
 
-import config, constants
+import cmenv.config as config
+import cmenv.constants as constants
 
 def deploy():
     local('mkdir ' + constants.DATA_DIRECTORY)

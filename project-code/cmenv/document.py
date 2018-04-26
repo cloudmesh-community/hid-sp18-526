@@ -1,6 +1,6 @@
 import os
 import yaml
-import constants
+import cmenv.constants as constants
 
 class APIDoc:
     """Class for combining OpenAPI documents
@@ -44,7 +44,7 @@ class APIDoc:
         
         # load yaml files
         for name in api_list:
-            with open(constants.API_ROOT + '/' + name + '/' + constants.SPECIFICATION_FILE + '.' + constants.YAML_EXTENSION, 'r') as f:
+            with open(constants.API_DIR + '/' + name + '/' + constants.SPECIFICATION_FILE + '.' + constants.YAML_EXTENSION, 'r') as f:
                 api = yaml.load(f)
                 for key, value in api.items():
                     

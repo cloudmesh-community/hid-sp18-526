@@ -1,5 +1,5 @@
 from connexion.resolver import Resolver
-import constants
+import cmenv.constants as constants
 
 class CMResolver(Resolver):
     """This resolver imports the original resolver and allows passing a dict of endpoints.
@@ -43,4 +43,11 @@ class CMResolver(Resolver):
         if endpoint == 'get' and '{' not in operation.path:
             endpoint = 'search'
 
-        return '{}.{}.{}.{}.{}'.format(constants.API_ROOT, self.controller_dispatch[operation.path[1:]], 'controllers', path, endpoint)
+        return '{}.{}.{}.{}.{}.{}'.format(
+            'cmenv', 
+            constants.API_ROOT,
+            self.controller_dispatch[operation.path[1:]],
+            'controllers',
+            path,
+            endpoint
+        )
