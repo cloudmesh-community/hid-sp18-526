@@ -52,7 +52,7 @@ Each API uses the following structure:
         └── ...
         
 - **swagger.yml** this file contains the swagger specification, for this API only (paths, definitions, etc.).
-- **requirements.txt** newline-separated list of python package requirements, to be installed via *pip install*
+- **requirements.txt** newline-separated list of python package requirements, to be installed via *pip3 install* (currently all packages use Python 3)
 - **pakackages.txt** newline-separated list of ubuntu package requirements, to be installed via *apt-get install*
 - **controllers** directory where the API controllers will be placed, with name corresponding to the path (see [Routing](#routing))
 
