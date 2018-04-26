@@ -21,6 +21,9 @@ def deploy():
             if os.path.isfile(pp_file):
                 with open(up_file, 'r') as f:
                     pip_packages += f.read().splitlines()
-                        
-    local('apt-get install ' + ' '.join(ubuntu_packages))
-    local('pip install ' + ' '.join(pip_packages))
+
+    if ubuntu_packages:                
+        local('apt-get install ' + ' '.join(ubuntu_packages))
+    
+    if pip_packages:
+        local('pip install ' + ' '.join(pip_packages))
