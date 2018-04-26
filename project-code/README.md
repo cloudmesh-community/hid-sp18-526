@@ -71,8 +71,7 @@ Key-value store example, from [store swagger file](apis/store/swagger.yml):
           
       '/key/{key}':
         get:
-          # routed to: apis.store.controllers.store.get
-            
+          # routed to: apis.store.controllers.store.get  
         delete:
           # routed to: apis.store.controllers.store.delete
 
