@@ -10,7 +10,7 @@ setup(
     version = '0.0.1',
     description = 'Deployable API Containers',
     url = 'https://github.com/cloudmesh-community/hid-sp18-526',
-    author = ['Tim Whitson'],
+    author = ['Tim Whitson', 'Gregor von Laszewski'],
     author_email = 'whitstd@gmail.com',
     license = 'MIT',
     packages = find_packages(),
