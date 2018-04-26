@@ -2,7 +2,6 @@ import os
 from subprocess import call
 
 import yaml
-from fabric.api import local
 
 import cmenv.config as config
 import cmenv.constants as constants
