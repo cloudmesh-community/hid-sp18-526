@@ -26,4 +26,4 @@ def deploy():
         local('apt-get install ' + ' '.join(ubuntu_packages))
     
     if pip_packages:
-        local('pip install ' + ' '.join(pip_packages))
+        local('pip3 install ' + ' '.join(pip_packages))
