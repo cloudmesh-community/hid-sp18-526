@@ -41,6 +41,30 @@ Each API uses the following structure:
 
 ### Routing
 
+CMENV uses a custom resolver, cmresolver. This resolver will create a route to each API by name, and each path. Using key store as an example. Each swagger path is maintained with the name of the API, the path, and the method (GET with no parameters defaults to SEARCH, in keaaping with the connexion default:
+
+```yaml
+
+    paths:
+      /key:
+        get:
+          # routed to: apis.store.controllers.store.search
+
+      '/key/{key}/{value}':
+        get:
+          # routed to: apis.store.controllers.store.get
+```
+
+Services example:
+
+```yaml
+
+    paths:
+      /services:
+        get:
+          # routed to: apis.services.controllers.services
+```
+
 ## Issues/to-do
 
 - [ ] prevent conflicting python packages
