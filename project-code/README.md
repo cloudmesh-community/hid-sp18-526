@@ -15,15 +15,13 @@
 Each working CMENV directory should be structured as follows:
 
     .
-    ├── config.yml          # configuration file
-    └── Dockerfile          # Dockerfile
+    └── config.yml          # configuration file
 
 - **config.yml** yaml configuration file. See [example](examples/config.yml).
-- **Dockerfile** Dockerfile. This should not be changed by the user.
 
-Build Docker image:
+Build Docker image (from remote repo):
 
-    docker build -t cmenv .
+    docker build -t cmenv https://raw.githubusercontent.com/cloudmesh-community/hid-sp18-526/master/project-code/Dockerfile
     
 Run Docker image:
 
