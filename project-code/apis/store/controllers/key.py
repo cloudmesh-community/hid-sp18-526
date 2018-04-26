@@ -1,6 +1,8 @@
 from tinydb import TinyDB, Query
 
-db = TinyDB('data/db.json')
+import constants
+
+db = TinyDB(constants.DATA_DIRECTORY + '/db.json')
 
 def search():
     return db.all()
