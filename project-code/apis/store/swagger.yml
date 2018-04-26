@@ -3,5 +3,44 @@ paths:
     get:
       responses:
         200:
-          description: Get key
-
+          description: Get key list
+          
+  '/key/{key}':
+    get:
+      parameters:
+        - in: path
+          name: key
+          required: true
+          type: string
+          format: byte
+      responses:
+        200:
+          description: Get key value
+    delete:
+      parameters:
+        - in: path
+          name: key
+          required: true
+          type: string
+          format: byte
+      responses:
+        200:
+          description: Delete key value
+    
+  '/key/{key}/{value}':
+    put:
+      parameters:
+        - in: path
+          name: key
+          required: true
+          type: string
+          format: byte
+          
+        - in: path
+          name: value
+          required: true
+          type: string
+          format: byte
+      responses:
+        200:
+          description: Put key in store
