@@ -12,7 +12,14 @@
 
 ## Usage
 
-...
+Each working CMENV directory should be structured as follows:
+
+    .
+    ├── config.yml          # configuration file
+    └── Dockerfile          # dockerfile
+
+- **config.yml** yaml configuration file. See [example](config.yml).
+- **Dockerfile** Dockerfile. This should not be changed by the user.
 
 ## APIs
 
@@ -28,16 +35,16 @@ in the configuration file.
 Each API uses the following structure:
 
     .
-    ├── swagger.yml         # Swagger specification
-    ├── requirements.txt    # Python requirements
-    ├── packages.txt        # Ubuntu package requirements
+    ├── swagger.yml         # swagger specification
+    ├── requirements.txt    # python requirements
+    ├── packages.txt        # ubuntu package requirements
     └── controllers         # directory containing python controllers for API
         └── ...
         
 - **swagger.yml** this file contains the swagger specification, for this API only (paths, definitions, etc.).
 - **requirements.txt** newline-separated list of python package requirements, to be installed via *pip install*
 - **pakackages.txt** newline-separated list of ubuntu package requirements, to be installed via *apt-get install*
-- **controllers/** this directory is where the API controllers will be placed, with name corresponding to the path (see [Routing](#routing))
+- **controllers** directory where the API controllers will be placed, with name corresponding to the path (see [Routing](#routing))
 
 ### Routing
 
@@ -67,5 +74,5 @@ Services example:
 
 ## Issues/to-do
 
-- [ ] prevent conflicting python packages
+- [ ] prevent conflicting python dependencies
 
