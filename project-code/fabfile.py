@@ -7,15 +7,13 @@ import cmenv.config as config
 import cmenv.constants as constants
 
 def deploy():
-    local('mkdir ' + constants.DATA_DIRECTORY)
-
     ubuntu_packages = []
     pip_packages = []
 
-    for directory in os.listdir('apis'):
+    for directory in os.listdir(constants.API_DIR):
         if directory in config.apis:
-            up_file = 'apis/' + directory + '/packages.txt'
-            pp_file = 'apis/' + directory + '/requirements.txt'
+            up_file = constants.API_DIR + directory + '/packages.txt'
+            pp_file = constants.API_DIR + directory + '/requirements.txt'
             
             if os.path.isfile(up_file):
                 with open(up_file, 'r') as f:
