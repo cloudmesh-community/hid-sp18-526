@@ -3,9 +3,11 @@ import os
 import yaml
 from fabric.api import local
 
-import config
+import config, constants
 
 def deploy():
+    local('mkdir ' + constants.DATA_DIRECTORY)
+
     ubuntu_packages = []
     pip_packages = []
 
