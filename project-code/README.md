@@ -19,7 +19,7 @@ Each working CMENV directory should be structured as follows:
     └── Dockerfile          # Dockerfile
 
 - **config.yml** yaml configuration file. See [example](examples/config.yml).
-- **Dockerfile** Dockerfile. This should not be changed by the user.
+- **Dockerfile** Dockerfile. This should not be changed by the user (copy the Dockerfile from this repository).
 
 Build Docker image:
 
@@ -31,12 +31,16 @@ Run Docker image:
     
 -t enables ctrl+c closing of server and -p ensures the port is open to communicate with the server in the container.
 
+Make sure server is running properly:
+
+    curl -X GET localhost:8080/services
+
 ## APIs
 
 Each API will have a self-named subdirectory in the **apis** directory. The configuration file contains a list of desired APIs to run, by name. So, for example, the *store* API has the directory *apis/store* and can be called up with
 
     apis:
-      - services
+      - store
       
 in the configuration file.
 
