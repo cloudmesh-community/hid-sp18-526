@@ -1,21 +1,23 @@
 FROM ubuntu
 
-RUN apt-get -qy \
-    python-pip3
+RUN apt-get update
+RUN apt-get install -qy \
+    python-pip \
+    python3-pip \
     git
+    
+RUN pip install fabric pyyaml
+RUN pip3 install connexion
 
 RUN mkdir ~/cloudmesh
+WORKDIR ~/cloudmesh
 
-COPY config.yml ~/cloudmesh
+COPY config.yml .
 
-# pip install all from apis/*/requirements.txt
-RUN find apis -name 'requirements.txt' -exec pip3 install -r {} \;
+RUN git clone https://github.com/cloudmesh-community/hid-sp18-526.git
 
-# install all packages from apis/*/packages.txt
-#RUN find apis -name 'packages.txt' -exec cat {} \; | xargs apt-get install -y
-
-
-
-
+RUN cd hid-sp18-526/project-code && git pull && fab deploy
 
 EXPOSE 8080
+
+CMD cd hid-sp18-526/project-code && git pull && python3 run.py
