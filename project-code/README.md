@@ -68,20 +68,17 @@ Key-value store example:
       /key:
         get:
           # routed to: apis.store.controllers.store.search
-
-      '/key/{key}/{value}':
+          
+      '/key/{key}':
         get:
           # routed to: apis.store.controllers.store.get
-```
+            
+        delete:
+          # routed to: apis.store.controllers.store.delete
 
-Services example:
-
-```yaml
-
-    paths:
-      /services:
-        get:
-          # routed to: apis.services.controllers.services
+      '/key/{key}/{value}':
+        put:
+          # routed to: apis.store.controllers.store.put
 ```
 
 ## Issues/to-do
