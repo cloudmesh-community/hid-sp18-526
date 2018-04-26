@@ -1,9 +1,19 @@
-#!/usr/bin/env python3
-
-from setuptools import setup, find_packages
+import os
+from setuptools import setup
 
 with open('requirements.txt') as requirements:
     required = requirements.read().splitlines()
+ 
+# recursive package definition
+# from user: Sandy Chapman, https://stackoverflow.com/a/36693250
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
+extra_files = package_files('cmenv/apis')
 
 setup(
     name = 'cmenv',
@@ -13,10 +23,12 @@ setup(
     author = ['Tim Whitson', 'Gregor von Laszewski'],
     author_email = 'whitstd@gmail.com',
     license = 'MIT',
-    packages = find_packages(),
+    packages = ['cmenv'],
+    package_data={'': extra_files},
     install_requires = required,
     entry_points = {
         'console_scripts': [
             'cmenv = cmenv.__main__:main'
         ]
-    })
+    }
+)
