@@ -3,20 +3,14 @@ import os
 import yaml
 from fabric.api import local
 
-import constants
-
-with open('config.' + constants.YAML_EXTENSION, 'r') as f:
-    config = yaml.load(f)
-    
-if config['apis'] == 'all':
-    config['apis'] = [d for d in os.listdir('apis')]
+import config
 
 def deploy():
     ubuntu_packages = []
     pip_packages = []
 
     for directory in os.listdir('apis'):
-        if directory in config['apis']:
+        if directory in config.apis:
             up_file = 'apis/' + directory + '/packages.txt'
             pp_file = 'apis/' + directory + '/requirements.txt'
             
