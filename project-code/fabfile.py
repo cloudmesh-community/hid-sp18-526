@@ -19,7 +19,7 @@ def deploy():
                     ubuntu_packages += f.read().splitlines()
                     
             if os.path.isfile(pp_file):
-                with open(up_file, 'r') as f:
+                with open(pp_file, 'r') as f:
                     pip_packages += f.read().splitlines()
 
     if ubuntu_packages:                
