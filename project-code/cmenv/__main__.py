@@ -7,7 +7,7 @@ import cmenv.config as config
 
 def main():
     doc = APIDoc(
-        title = 'yolo',
+        title = 'CMENV',
         version = '1.0',
         swagger = '2.0'
     )

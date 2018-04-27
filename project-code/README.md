@@ -87,4 +87,6 @@ Key-value store example, from [store swagger file](apis/store/swagger.yml):
 ## Issues/to-do
 
 - [ ] prevent conflicting python dependencies
+- [ ] prevent conflicting API endpoints
+- [ ] auto-reloading when services enabled/disabled
 

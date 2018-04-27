@@ -3,6 +3,26 @@ paths:
     get:
       responses:
         200:
-          description: List running services
+          description: list of running services
           schema:
             type: array
+            
+  /services/{name}:
+    put:
+      parameters:
+        - in: path
+          name: name
+          required: true
+          type: string
+      responses:
+        200:
+          description: service enabled
+    delete:
+      parameters:
+        - in: path
+          name: name
+          required: true
+          type: string
+      responses:
+        200:
+          description: service disabled
