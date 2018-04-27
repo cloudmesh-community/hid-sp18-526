@@ -7,29 +7,6 @@ cd ../../hid-sample; git pull
 Already up-to-date.
 cp ../../hid-sample/paper/Makefile .
 cp ../../hid-sample/paper/report.tex .
-WRNING: line longer than 80 characters
-('      ', '488:', "Each instance of \\projectname uses its own configuration file, \\textit{config.yml}. This is due to the fact that the containers need to be composable. Currently, the configuration allows for the selective use of services. Either a list of services or ``all'' can be provided in the configuration to determine which services are running. The container will then run only the APIs which are listed. Currently, the setup also requires the \\textit{Dockerfile} to be in the install directory.\n")
-WRNING: line longer than 80 characters
-('      ', '345:', "Because \\projectname is a composable system, each part of the API should be independent. Therefore, we use a modular system of self-contained APIs, which are then combined into a single server. This allows for a ``plugin'' type system where new API modules can easily be created and added to the program. Each individial API module consists of:\n")
-WRNING: line longer than 80 characters
-('      ', '221:', '    \\item \\textbf{swagger.yml} This file contains the swagger specification, for this API only (paths, definitions, etc.). The top-level swagger specification (swagger version, API title) are handled by the main program.\n')
-WRNING: line longer than 80 characters
-('      ', '187:', '    \\item \\textbf{requirements.txt} This file is a newline-separated list of python package requirements, to be installed via \\textit{pip3 install} (currently all packages use Python 3).\n')
-WRNING: line longer than 80 characters
-('      ', '145:', '    \\item \\textbf{pakackages.txt} This is a newline-separated list of ubuntu package requirements, to be installed via \\textit{apt-get install}.\n')
-WRNING: line longer than 80 characters
-('      ', '241:', '    \\item \\textbf{controllers} This directory is where the API controllers are placed, with name corresponding to the path. Each file in this directory is a Python file which acts as a controller, defined by the path names from swagger.yml.\n')
-WRNING: line longer than 80 characters
-('      ', '419:', 'Another reason for following such a structure is to properly manage dependencies. Each API has its own dependencies, both in the operating system and in the programming language (Python). With a modular setup, individual dependencies can be assigned and handled by the program. Therefore, no master list of dependencies is required, and individual modules can be installed or uninstalled along with their dependencies.\n')
-Warning 1 in content.tex line 30: Command terminated with space.
-\def \projectname{\textit{cmenv}}  
-    ^
-Warning 1 in content.tex line 70: Command terminated with space.
-Each instance of \projectname uses its own configuration file, \textit{config.yml}. This is due to the fact that the containers need to be composable. Currently, the configuration allows for the selective use of services. Either a list of services or ``all'' can be provided in the configuration to determine which services are running. The container will then run only the APIs which are listed. Currently, the setup also requires the \textit{Dockerfile} to be in the install directory.  
-                             ^
-Warning 1 in content.tex line 74: Command terminated with space.
-Because \projectname is a composable system, each part of the API should be independent. Therefore, we use a modular system of self-contained APIs, which are then combined into a single server. This allows for a ``plugin'' type system where new API modules can easily be created and added to the program. Each individial API module consists of:  
-                    ^
 make[2]: Leaving directory '/home/tim/Desktop/hid-sp18-526/project-paper'
 \end{verbatim}
 \end{tiny}

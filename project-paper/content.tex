@@ -4,7 +4,7 @@
 \title{CMENV: Deployable Cloudmesh Containers}
 
 \author{Tim Whitson}
-\affiliation{%
+\affiliation{
   \institution{Indiana University}
   \streetaddress{Smith Research Center}
   \city{Bloomington}
@@ -14,7 +14,7 @@
 \email{tdwhitso@indiana.edu}
 
 \author{Gregor von Laszewski}
-\affiliation{%
+\affiliation{
   \institution{Indiana University}
   \streetaddress{Smith Research Center}
   \city{Bloomington}
@@ -27,13 +27,16 @@
 \renewcommand{\shortauthors}{T. Whitson}
 
 % program name (subject to change)
-\def{\projectname{\textit{cmenv}}}
+\def\projectname{\textit{cmenv}}
 
 \begin{abstract}
 In order to meet the needs of modern cloud computing environments, there is a
 need for flexible, language-independent computing resources. To meet this
 need, we present \projectname, a modularized system of REST APIs housed
-within easily deployable Docker containers.
+within easily-deployable Docker containers. Each individual API stands alone
+within the program and we discuss the structure for APIs. A custom resolver
+is created to route HTTP requests back to the API controllers. Various REST
+services are given as standard for maintaing the program.
 \end{abstract}
 
 \keywords{hid-sp18-526, cloudmesh, rest, swagger}
@@ -52,8 +55,11 @@ REST APIs are another crucial cloud component. In fact, many important software
 programs, such as Kubernetes, come with REST APIs built-in. An important
 benefit of REST APIs is that they are language-independent. All web languages
 have methods for interacting with, and creating, REST APIs. Therefore, REST
-APIs play a crucial role in \projectname. We will combine all required services
-into a single REST API that can be deployed easily within a Docker container.
+APIs play a crucial role in \projectname.
+
+We combine all required services into a single REST API that can be deployed
+easily within a Docker container. Each API stands on its own as a modular
+system.
 
 \section{OpenAPI}
 
@@ -65,47 +71,200 @@ both humans and computers to discover and understand the capabilities of a
 service without requiring access to source code, additional documentation,
 or inspection of network traffic.''\cite{hid-sp18-526-www-openapi}
 
+The specific OpenAPI standard we use is Swagger 2.0. Swagger 2.0 allows for
+simple resource definitions. We will not require any operation handling,
+as all routing will be done by a custom resolver, discussed later.
+
 \section{Configuration}
 
-Each instance of \projectname uses its own configuration file, \textit{config.yml}. This is due to the fact that the containers need to be composable. Currently, the configuration allows for the selective use of services. Either a list of services or ``all'' can be provided in the configuration to determine which services are running. The container will then run only the APIs which are listed. Currently, the setup also requires the \textit{Dockerfile} to be in the install directory.
+Each instance of \projectname~uses its own configuration file,
+\textit{config.yml}. This is due to the fact that the containers need to
+be composable. Currently, the configuration allows for the selective use
+of services. Either a list of services or ``all'' can be provided in the
+configuration to determine which services are running. The container will
+then run only the APIs which are listed. Currently, the setup also requires
+the \textit{Dockerfile} to be in the install directory.
+
+In order to launch the program, the following directory structure must be
+adhered to:
+\begin{verbatim}
+.
+|-- config.yml # CMENV configuration
+|-- Dockerfile # Dockerfile
+
+\end{verbatim}
+\begin{itemize}
+    \item \textbf{config.yml} This file contains the configuration for
+    \projectname, such as which services will be run.
+    \item \textbf{Dockerfile} This Dockerfile is provided. It should not be
+    modified except in special circumstances.
+\end{itemize}
+
+\section{Program Functionality}
+
+The first role of the program is to generate the Swagger specification. In
+order to do this, all requested services must be gathered. Then the
+program combines the paths of each module from its \textit{swagger.yml}
+specification. After all services are combined, a final Swagger specification
+is created with required fields (title, version, etc.). This document is fed
+into \textit{connexion}. The combined Swagger document can also be output
+as either yaml or json.
+
+\subsection{connexion}
+
+connexion is a Python program written by Zalando SE to combine OpenAPI and
+Flask~\cite{hid-sp18-526-www-connexion}. Effectively, connexion takes the
+place of Swagger Codegen. It accepts a Swagger specification and creates
+a Flask server with pre-generated routes. Typically, with connexion, the
+user would have to specify the controllers manually or allow the connexion
+\textit{resty resolver} to automatically route the requests. However, due
+to the modularity of \projectname, we will create our own router. See the
+Routing section for more information.
 
 \section{API Structure}
 
-Because \projectname is a composable system, each part of the API should be independent. Therefore, we use a modular system of self-contained APIs, which are then combined into a single server. This allows for a ``plugin'' (and plug out) system where new API modules can easily be created and added to the program. Each individial API module consists of:
+Because \projectname~is a composable system, each part of the API should
+be independent. Therefore, we use a modular system of self-contained APIs,
+which are then combined into a single server. This allows for a ``plugin''
+(and plug out) system where new API modules can easily be created and added
+to the program.
+
+Directory layout:
+\begin{verbatim}
+.
+|-- swagger.yml # Swagger specification
+|-- requirements.txt # python requirements
+|-- packages.txt # Ubuntu package requirements
+|-- controllers # dpython controllers for API
+    |-- ...
+
+\end{verbatim}
 
 \begin{itemize}
-    \item \textbf{swagger.yml} This file contains the swagger specification, for this API only (paths, definitions, etc.). The top-level swagger specification (swagger version, API title) are handled by the main program.
-    
-    \item \textbf{requirements.txt} This file is a newline-separated list of python package requirements, to be installed via \textit{pip3 install} (currently all packages use Python 3).
+    \item\textbf{swagger.yml} This file contains the Swagger specification,
+    for this API only (paths, definitions, etc.). The top-level Swagger
+    specification (Swagger version, API title) are handled by the main program.
 
-    \item \textbf{pakackages.txt} This is a newline-separated list of ubuntu package requirements, to be installed via \textit{apt-get install}.
-    
-    \item \textbf{controllers} This directory is where the API controllers are placed, with name corresponding to the path. Each file in this directory is a Python file which acts as a controller, defined by the path names from swagger.yml. See Routing section for more information.
+    \item\textbf{requirements.txt} This file is a newline-separated list of
+    python package requirements, to be installed via \textit{pip3 install}
+    (currently all packages use Python 3).
+
+    \item\textbf{pakackages.txt} This is a newline-separated list of Ubuntu
+    package requirements, to be installed via \textit{apt-get install}.
+
+    \item\textbf{controllers} This directory is where the API controllers are
+    placed, with name corresponding to the path. Each file in this directory
+    is a Python file which acts as a controller, defined by the path names
+    from swagger.yml. See Routing section for more information.
 \end{itemize}
 
-Another reason for following such a structure is to properly manage dependencies. Each API has its own dependencies, both in the operating system and in the programming language (Python). With a modular setup, individual dependencies can be assigned and handled by the program. Therefore, no master list of dependencies is required, and individual modules can be installed or uninstalled along with their dependencies.
+Another reason for following such a structure is to properly manage
+dependencies. Each API has its own dependencies, both in the operating system
+and in the programming language (Python). With a modular setup, individual
+dependencies can be assigned and handled by the program. Therefore, no master
+list of dependencies is required, and individual modules can be installed
+or uninstalled along with their dependencies.
 
 \section{Routing}
 
-To fit with the modularized system of APIs, a custom router, or resolver, is used. The router needs to be able to find each individual API, and call the controllers located within the API. First, a one-to-one mapping of modules to paths is created, to ensure that the controller can refer to the original module. Then, the method is placed as the endpoint. In keeping with the connexion package standard, a GET request to the base path is referred to as ``search''.\cite{hid-sp18-526-www-connexion}
+To fit with the modularized system of APIs, a custom router, or resolver,
+is used. The router needs to be able to find each individual API, and call
+the controllers located within the API. First, a one-to-one mapping of
+modules to paths is created, to ensure that the controller can refer to the
+original module. Then, the method is placed as the endpoint. In keeping with
+the connexion package standard, a GET request to the base path is referred
+to as ``search''.
 
-For example, if in the \textit{store} module, we have the path ``/key'' and method ``GET'', the request is routed to apis.store.controllers.key.search. This leads to the \textit{store} module, the "controller" subdirectory, the ``key.py'' file, and the ``search'' function.
+For example, if in the \textit{store} module, we have the
+path ``/key'' and method ``GET'', the request is routed to
+apis.store.controllers.key.search. This leads to the \textit{store} module, the
+``controller'' subdirectory, the ``key.py'' file, and the ``search'' function.
+
+Example using \textit{store} module:
+\begin{verbatim}
+paths:
+  /key:
+    get:
+      # route: apis.store.controllers.store.search
+
+  '/key/{key}':
+    get:
+      # route: apis.store.controllers.store.get
+    delete:
+      # route: apis.store.controllers.store.delete
+
+  '/key/{key}/{value}':
+    put:
+      # route: apis.store.controllers.store.put
+\end{verbatim}
 
 \section{APIs}
 
-The purpose of \projectname is to provide an arbitrary number of services. However, a few services come packaged. These services, which are outlined here, are crucial to maintaining the operating environment.
+The purpose of \projectname~is to provide an arbitrary number of
+services. However, a few services come packaged. These services, which are
+outlined here, are crucial to maintaining the operating environment.
 
 \subsection{Key-Value Store}
 
-A Key-value store is implemented, using TinyDB. TinyDB is a simple, lightweight local file store written in Python. Essentially, it acts like a local version of MongoDB. Each item is stored as a json document, and all documents for a ``db'' are combined into a json file. These files are read in and out of Python and easily dumped or loaded as dictionaries. This solution provides an efficient, queryable file store with no dependencies on the operating system.\cite{hid-sp18-526-www-tinydb}
+A Key-value store is implemented, using TinyDB. TinyDB is a simple, lightweight
+local file store written in Python. Essentially, it acts like a local version
+of MongoDB. Each item is stored as a json document, and all documents for a
+``db'' are combined into a json file. These files are read in and out of
+Python and easily dumped or loaded as dictionaries. This solution provides
+an efficient, queryable file store with no dependencies on the operating
+system.\cite{hid-sp18-526-www-tinydb}
 
 \subsection{Services}
 
-A services library is necessary to manage the API modules. The library shows not only what is running, but also allows disabling and enabling of services.
+A services library is necessary to manage the API modules. The library handles
+not only running services, but the management of services as well. This
+will be useful for changing the initial configuration parameters after the
+container has been created. The API can talk to the program and turn off
+and on whichever services are requested (requiring a restart).
 
 \section{Future Improvements}
 
+This project is a work-in-progress. Many more changes and adjustments will
+need to be made for full implementation. In this discussion we discuss the
+future of the project.
+
+\subsection{Core APIs}
+
+More core APIs need to be added for maintenance and functionality. The
+following core APIs will be added in the future:
+\begin{itemize}
+    \item \textbf{key management} This API will manage SSH/public keys.
+    \item \textbf{accounting} This API will enable accounting of services
+    and resources. Also included will be a logging system.
+    \item \textbf{data services} This API will manage a file and object
+    store. There will also be virtual files and virtual objects. This service
+    might also benefit from TinyDB.
+\end{itemize}
+
+\subsection{Service Monitor}
+
+A service monitor would be an important asset for the combined APIs. Such a
+monitor could run in a browser and have the capability to start/stop services
+and generate URLs or parameters. An HTML template could be created using
+Jinja and Flask to communicate with any running API.
+
+\subsection{Remote Setup}
+
+A remote setup option is possible, without requiring a local directory,
+Dockerfile, or configuration file. However, This setup would be a more
+standardized setup, with all services running. The user would be required
+to manually configure the setup through the \textit{services} module.
+
 \section{Conclusion}
+
+\projectname~is a modern solution to a modern problem. We are able to deploy
+a container of modularized and combined REST APIs easily and efficiently. We
+use connexion and OpenAPI specifications to create a combined specification of
+all services running on a Flask server. We create a custom router to route HTTP
+requests to the modules. There is still more work to do on \projectname, which
+has been outlined in the paper. However, we believe that \projectname~has
+a solid foundation moving forward to simplifying distributed and cloud
+computing problems.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{report}
