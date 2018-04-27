@@ -27,7 +27,7 @@
 \renewcommand{\shortauthors}{T. Whitson}
 
 % program name (subject to change)
-\def \projectname{\textit{cmenv}}
+\def{\projectname{\textit{cmenv}}}
 
 \begin{abstract}
 In order to meet the needs of modern cloud computing environments, there is a
@@ -46,7 +46,7 @@ Docker is a program that provides containerization (virtualization
 within the operating system). Docker is quickly becoming standard for
 software development and deployment within the cloud. According to the
 2016 Docker Survey, 60\% of users deploy Docker as part of their ``cloud
-strategy''\cite{hid-sp18-526-docker-survey}.
+strategy''\cite{hid-sp18-526-www-docker-survey}.
 
 REST APIs are another crucial cloud component. In fact, many important software
 programs, such as Kubernetes, come with REST APIs built-in. An important
@@ -63,17 +63,49 @@ we use OpenAPI. According to their website, OpenAPI ``defines a standard,
 programming language-agnostic interface description for REST APIs, which allows
 both humans and computers to discover and understand the capabilities of a
 service without requiring access to source code, additional documentation,
-or inspection of network traffic.''\cite{hid-sp18-526-openapi}
+or inspection of network traffic.''\cite{hid-sp18-526-www-openapi}
 
 \section{Configuration}
 
-\section{Public Keys}
+Each instance of \projectname uses its own configuration file, \textit{config.yml}. This is due to the fact that the containers need to be composable. Currently, the configuration allows for the selective use of services. Either a list of services or ``all'' can be provided in the configuration to determine which services are running. The container will then run only the APIs which are listed. Currently, the setup also requires the \textit{Dockerfile} to be in the install directory.
 
-\section{Key-Value Store}
+\section{API Structure}
 
-\section{Data Services}
+Because \projectname is a composable system, each part of the API should be independent. Therefore, we use a modular system of self-contained APIs, which are then combined into a single server. This allows for a ``plugin'' (and plug out) system where new API modules can easily be created and added to the program. Each individial API module consists of:
 
-% cite
+\begin{itemize}
+    \item \textbf{swagger.yml} This file contains the swagger specification, for this API only (paths, definitions, etc.). The top-level swagger specification (swagger version, API title) are handled by the main program.
+    
+    \item \textbf{requirements.txt} This file is a newline-separated list of python package requirements, to be installed via \textit{pip3 install} (currently all packages use Python 3).
+
+    \item \textbf{pakackages.txt} This is a newline-separated list of ubuntu package requirements, to be installed via \textit{apt-get install}.
+    
+    \item \textbf{controllers} This directory is where the API controllers are placed, with name corresponding to the path. Each file in this directory is a Python file which acts as a controller, defined by the path names from swagger.yml. See Routing section for more information.
+\end{itemize}
+
+Another reason for following such a structure is to properly manage dependencies. Each API has its own dependencies, both in the operating system and in the programming language (Python). With a modular setup, individual dependencies can be assigned and handled by the program. Therefore, no master list of dependencies is required, and individual modules can be installed or uninstalled along with their dependencies.
+
+\section{Routing}
+
+To fit with the modularized system of APIs, a custom router, or resolver, is used. The router needs to be able to find each individual API, and call the controllers located within the API. First, a one-to-one mapping of modules to paths is created, to ensure that the controller can refer to the original module. Then, the method is placed as the endpoint. In keeping with the connexion package standard, a GET request to the base path is referred to as ``search''.\cite{hid-sp18-526-www-connexion}
+
+For example, if in the \textit{store} module, we have the path ``/key'' and method ``GET'', the request is routed to apis.store.controllers.key.search. This leads to the \textit{store} module, the "controller" subdirectory, the ``key.py'' file, and the ``search'' function.
+
+\section{APIs}
+
+The purpose of \projectname is to provide an arbitrary number of services. However, a few services come packaged. These services, which are outlined here, are crucial to maintaining the operating environment.
+
+\subsection{Key-Value Store}
+
+A Key-value store is implemented, using TinyDB. TinyDB is a simple, lightweight local file store written in Python. Essentially, it acts like a local version of MongoDB. Each item is stored as a json document, and all documents for a ``db'' are combined into a json file. These files are read in and out of Python and easily dumped or loaded as dictionaries. This solution provides an efficient, queryable file store with no dependencies on the operating system.\cite{hid-sp18-526-www-tinydb}
+
+\subsection{Services}
+
+A services library is necessary to manage the API modules. The library shows not only what is running, but also allows disabling and enabling of services.
+
+\section{Future Improvements}
+
+\section{Conclusion}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{report}
