@@ -10,6 +10,20 @@
 - To standardize deployment of Docker containers running REST APIs. 
 - To simplify the development of new APIs using custom interpreters and resolvers. Each REST API is defined simply using a YAML file and OpenAPI 2.0 (formerly Swagger) specification and a (Python) controller.
 
+## Test Run (using make)
+
+Build container from example:
+
+    make docker-build
+    
+Run container:
+
+    make docker-run
+    
+Test services and key store:
+
+    make test
+
 ## Usage
 
 Each working CMENV directory should be structured as follows:
@@ -89,4 +103,5 @@ Key-value store example, from [store swagger file](apis/store/swagger.yml):
 - [ ] prevent conflicting python dependencies
 - [ ] prevent conflicting API endpoints
 - [ ] auto-reloading when services enabled/disabled
+- [ ] list of services/endpoints
 
